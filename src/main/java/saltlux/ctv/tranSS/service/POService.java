@@ -8,6 +8,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import saltlux.ctv.tranSS.concurrency.RemoveFileTask;
 import saltlux.ctv.tranSS.enums.CompanyEnum;
+import saltlux.ctv.tranSS.exception.BadRequestException;
 import saltlux.ctv.tranSS.exception.ResourceNotFoundException;
 import saltlux.ctv.tranSS.model.*;
 import saltlux.ctv.tranSS.payload.PagedResponse;
@@ -186,7 +187,12 @@ public class POService {
      * @param id id
      */
     public void delete(Long id) {
-        this.poRepository.deleteById(id);
+        PurchaseOrder order = poRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("PO", "id", id));
+        Invoice invoice = order.getInvoice();
+        if(null != invoice && null != invoice.getId()){
+            throw new BadRequestException("Can not delete PO due to an Invoice existed");
+        }
+        this.poRepository.deleteByPoId(id);
     }
 
 }
