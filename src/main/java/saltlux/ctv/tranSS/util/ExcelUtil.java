@@ -312,7 +312,9 @@ public class ExcelUtil {
                     } else if (celValue instanceof BigDecimal) {
                         currentCell.setCellValue(new BigDecimal(celValue.toString()).stripTrailingZeros().doubleValue());
                     } else {
-                        currentCell.setCellValue(celValue.toString());
+                        if(null != celValue){
+                            currentCell.setCellValue(celValue.toString());
+                        }
                     }
                 }
             }
