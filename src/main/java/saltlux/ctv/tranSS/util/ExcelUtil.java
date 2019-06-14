@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,8 +31,8 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 
 @Slf4j
 public class ExcelUtil {
-    private static final String TOMCAT_BASE = System.getProperty("catalina.base");
-//    private static final String TOMCAT_BASE = Paths.get("").toAbsolutePath().getParent().toString();
+//    private static final String TOMCAT_BASE = System.getProperty("catalina.base");
+    private static final String TOMCAT_BASE = Paths.get("").toAbsolutePath().getParent().toString();
 
     private static final int RDB_SHEET = 3;
     private static final int PROJECT_FINISHED_SHEET = 0;

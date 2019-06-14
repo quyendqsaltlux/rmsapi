@@ -14,6 +14,7 @@ import saltlux.ctv.tranSS.payload.project.ProjectResponse;
 import saltlux.ctv.tranSS.payload.project.ProjectsItemResponse;
 import saltlux.ctv.tranSS.security.CurrentUser;
 import saltlux.ctv.tranSS.security.UserPrincipal;
+import saltlux.ctv.tranSS.service.ProjectMiddleService;
 import saltlux.ctv.tranSS.service.ProjectService;
 import saltlux.ctv.tranSS.util.AppConstants;
 
@@ -23,13 +24,14 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/project")
 public class ProjectController {
-
+    private final ProjectMiddleService middleService;
     private final ProjectService projectService;
 
 
     @Autowired
-    public ProjectController(ProjectService projectService) {
+    public ProjectController(ProjectService projectService, ProjectMiddleService middleService) {
         this.projectService = projectService;
+        this.middleService = middleService;
     }
 
     @PostMapping
@@ -61,7 +63,7 @@ public class ProjectController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('PM') or hasRole('ADMIN') or hasRole('RM')")
     public ResponseEntity<?> delete(@CurrentUser UserPrincipal currentUser, @PathVariable Long id) {
-        projectService.delete(currentUser,id);
+        middleService.deleteProject(currentUser, id);
         return ResponseEntity.created(null)
                 .body(new ApiResponse(true, "Delete successfully"));
     }

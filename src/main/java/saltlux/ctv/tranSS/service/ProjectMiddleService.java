@@ -3,6 +3,7 @@ package saltlux.ctv.tranSS.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import saltlux.ctv.tranSS.enums.ProjectProgressEnum;
 import saltlux.ctv.tranSS.exception.BadRequestException;
 import saltlux.ctv.tranSS.exception.NotAllowException;
@@ -22,14 +23,17 @@ import java.util.List;
 @Slf4j
 @Service
 public class ProjectMiddleService {
-    @Autowired
-    private ProjectAssignmentRepository assignmentRepository;
-    @Autowired
-    private ProjectRepository projectRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private final ProjectAssignmentRepository assignmentRepository;
+    private final ProjectRepository projectRepository;
+    private final UserRepository userRepository;
 
-    public ProjectMiddleService() {
+    @Autowired
+    public ProjectMiddleService(ProjectAssignmentRepository assignmentRepository,
+                                ProjectRepository projectRepository,
+                                UserRepository userRepository) {
+        this.assignmentRepository = assignmentRepository;
+        this.projectRepository = projectRepository;
+        this.userRepository = userRepository;
     }
 
     public void updateProjectCode(String oldProjectCode, String newProjectCode) {
@@ -74,6 +78,6 @@ public class ProjectMiddleService {
         if (!assignments.isEmpty()) {
             throw new BadRequestException("Not allow delete project includes assignments");
         }
-        projectRepository.deleteById(id);
+        projectRepository.deleteByProjectId(id);
     }
 }

@@ -227,11 +227,4 @@ public class ProjectService {
         return keyWordSpec;
     }
 
-    /**
-     * @param id id
-     */
-    @Transactional
-    public void delete(UserPrincipal currentUser, Long id) {
-        projectMiddleService.deleteProject(currentUser, id);
-    }
 }
