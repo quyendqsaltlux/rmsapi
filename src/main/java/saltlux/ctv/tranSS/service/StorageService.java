@@ -1,0 +1,27 @@
+package saltlux.ctv.tranSS.service;
+
+import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.stream.Stream;
+
+public interface StorageService {
+
+    void init();
+
+    Path store(MultipartFile file, Path path) throws IOException;
+
+    Stream<Path> loadAll();
+
+    Path load(String filename);
+
+    Resource loadAsResource(String filename);
+
+    void deleteAll();
+
+    Path createPath(String path) throws IOException;
+
+    boolean deleteFile(String path);
+}
