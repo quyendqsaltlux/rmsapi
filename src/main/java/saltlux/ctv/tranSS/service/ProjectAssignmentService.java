@@ -29,7 +29,6 @@ import saltlux.ctv.tranSS.repository.evaluation.SpecificCommentRepository;
 import saltlux.ctv.tranSS.repository.po.PORepository;
 import saltlux.ctv.tranSS.repository.project.ProjectAssignmentRepository;
 import saltlux.ctv.tranSS.repository.project.ProjectRepository;
-import saltlux.ctv.tranSS.util.TransformUtil;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -39,7 +38,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static saltlux.ctv.tranSS.util.TransformUtil.roundDouble2;
 import static saltlux.ctv.tranSS.util.ValidationUtil.isPositiveId;
 import static saltlux.ctv.tranSS.util.ValidationUtil.isTrue;
 
@@ -328,7 +326,7 @@ public class ProjectAssignmentService {
             }
             netOrHour = netOrHour.add(wf.get(i).multiply(BigDecimal.valueOf(rep.get(i))));
         }
-        return netOrHour.divide(BigDecimal.valueOf(100), 2, RoundingMode.CEILING);
+        return netOrHour.divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
     }
 
     /**

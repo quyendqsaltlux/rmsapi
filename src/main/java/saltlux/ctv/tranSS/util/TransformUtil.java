@@ -186,8 +186,8 @@ public class TransformUtil {
 
     public static BigDecimal roundByCurrency(String currency, BigDecimal total) {
         if ("KRW".equals(currency)) {
-            return total.setScale(0, RoundingMode.CEILING);
+            return total.setScale(0, RoundingMode.HALF_UP);
         }
-        return total.setScale(2, RoundingMode.CEILING);
+        return total.setScale(2, RoundingMode.HALF_UP);
     }
 }

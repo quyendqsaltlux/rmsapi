@@ -29,7 +29,7 @@ public class tranSSApplicationTests {
     public void testRound(){
         BigDecimal decimal = new BigDecimal("1234.567899000");
         double v = decimal.doubleValue();
-        double v2 = decimal.setScale(2, RoundingMode.CEILING).doubleValue();
+        double v2 = decimal.setScale(2, RoundingMode.HALF_UP).doubleValue();
         double v3 = decimal.stripTrailingZeros().doubleValue();
         int x= 0;
     }

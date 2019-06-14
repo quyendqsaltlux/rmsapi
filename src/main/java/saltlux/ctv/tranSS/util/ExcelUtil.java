@@ -28,10 +28,11 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static saltlux.ctv.tranSS.util.TransformUtil.roundByCurrency;
 
 @Slf4j
 public class ExcelUtil {
-//    private static final String TOMCAT_BASE = System.getProperty("catalina.base");
+    //    private static final String TOMCAT_BASE = System.getProperty("catalina.base");
     private static final String TOMCAT_BASE = Paths.get("").toAbsolutePath().getParent().toString();
 
     private static final int RDB_SHEET = 3;
@@ -251,7 +252,7 @@ public class ExcelUtil {
             map.put("projectName", order.getProject().getName());
             map.put("totalRep", order.getTotalRep());
             map.put("unitPrice", order.getUnitPrice());
-            map.put("total", order.getTotal());
+            map.put("total", roundByCurrency(order.getCurrency(), order.getTotal()));
             map.put("pmName", order.getProject().getPmVtc().getName());
 
             list.add(map);
@@ -357,12 +358,12 @@ public class ExcelUtil {
         map.put("repnoMatch", po.getAssignment().getRepnoMatch());
         map.put("totalRep", po.getAssignment().getTotalRep());
 
-        map.put("wrep", po.getAssignment().getWrep().divide(BigDecimal.valueOf(100), 2, RoundingMode.CEILING));
-        map.put("w100", po.getAssignment().getW100().divide(BigDecimal.valueOf(100), 2, RoundingMode.CEILING));
-        map.put("w99_95", po.getAssignment().getW99_95().divide(BigDecimal.valueOf(100), 2, RoundingMode.CEILING));
-        map.put("w94_85", po.getAssignment().getW94_85().divide(BigDecimal.valueOf(100), 2, RoundingMode.CEILING));
-        map.put("w84_75", po.getAssignment().getW84_75().divide(BigDecimal.valueOf(100), 2, RoundingMode.CEILING));
-        map.put("wnoMatch", po.getAssignment().getWnoMatch().divide(BigDecimal.valueOf(100), 2, RoundingMode.CEILING));
+        map.put("wrep", po.getAssignment().getWrep().divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP));
+        map.put("w100", po.getAssignment().getW100().divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP));
+        map.put("w99_95", po.getAssignment().getW99_95().divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP));
+        map.put("w94_85", po.getAssignment().getW94_85().divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP));
+        map.put("w84_75", po.getAssignment().getW84_75().divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP));
+        map.put("wnoMatch", po.getAssignment().getWnoMatch().divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP));
         map.put("netOrHour", po.getAssignment().getNetOrHour());
 
         map.put("unitPrice", po.getAssignment().getUnitPrice());

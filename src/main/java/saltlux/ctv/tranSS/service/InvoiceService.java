@@ -79,6 +79,8 @@ public class InvoiceService {
         BigDecimal total = new BigDecimal("0");
 
         for (PoProjectAssignmentResponse poResponse : purchaseOrders) {
+            String currency = poResponse.getCurrency();
+            poResponse.setTotal(roundByCurrency(currency, poResponse.getTotal()));
             total = total.add(poResponse.getTotal());
             Project project = projectRepo.findById(poResponse.getProjectId())
                     .orElseThrow(() -> new ResourceNotFoundException("Project", "id", poResponse.getProjectId()));
@@ -92,8 +94,7 @@ public class InvoiceService {
 
         InvoiceAuditResponse response = new InvoiceAuditResponse();
         response.setPurchaseOrders(purchaseOrders);
-        String currency = purchaseOrders.get(0).getCurrency();
-        response.setTotal(roundByCurrency(currency, total));
+        response.setTotal(total);
         if (!purchaseOrders.isEmpty()) {
             response.setCurrency(purchaseOrders.get(0).getCurrency());
         }
