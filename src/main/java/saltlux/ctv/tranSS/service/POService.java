@@ -86,10 +86,10 @@ public class POService {
         }
         poResponse.setAssignment(poAssignment);
 
-        if(!isTrue(assignment.getExternalResource()) &&
-                null != assignment.getCandidate() && null != assignment.getCandidate().getId()){
+        if (!isTrue(assignment.getExternalResource()) &&
+                null != assignment.getCandidate() && null != assignment.getCandidate().getId()) {
             poResponse.setCurrency(assignment.getCandidate().getCurrency());
-        }else {
+        } else {
             poResponse.setCurrency("USD");
         }
 
@@ -127,6 +127,7 @@ public class POService {
      */
     private POResponse convertToDto(PurchaseOrder order) {
         POResponse response = modelMapper.map(order, POResponse.class);
+        response.setInvoice(modelMapper.map(order.getInvoice(), PoInvoice.class));
 
         projectRepository.findById(order.getAssignment().getProjectId())
                 .ifPresent(project1 -> {
@@ -189,7 +190,7 @@ public class POService {
     public void delete(Long id) {
         PurchaseOrder order = poRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("PO", "id", id));
         Invoice invoice = order.getInvoice();
-        if(null != invoice && null != invoice.getId()){
+        if (null != invoice && null != invoice.getId()) {
             throw new BadRequestException("Can not delete PO due to an Invoice existed");
         }
         this.poRepository.deleteByPoId(id);

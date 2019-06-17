@@ -21,4 +21,5 @@ public class POResponse {
     private String status;
     private String company;
     private POAssignment assignment;
+    private PoInvoice invoice;
 }
