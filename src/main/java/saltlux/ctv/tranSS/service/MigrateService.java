@@ -164,7 +164,7 @@ public class MigrateService {
         Set<User> users = ExcelUtil.loadPM(roleSet);
         for (User user : users) {
             user.setPassword(passwordEncoder.encode("123456"));
-            if (AppConstants.PM_LEADER.equals(user.getCode())) {
+            if (AppConstants.PM_LEADER.equals(user.getCode()) || AppConstants.PM_LEADER_KOREA.equals(user.getCode())) {
                 Set<Role> roles = new HashSet<>(user.getRoles());
                 roles.add(role3);
                 user.setRoles(roles);

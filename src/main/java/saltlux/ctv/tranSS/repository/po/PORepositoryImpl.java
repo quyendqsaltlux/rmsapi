@@ -6,6 +6,7 @@ import saltlux.ctv.tranSS.payload.common.FilterRequest;
 import saltlux.ctv.tranSS.payload.po.PoFilterRequest;
 import saltlux.ctv.tranSS.payload.po.PoProjectAssignmentResponse;
 import saltlux.ctv.tranSS.security.UserPrincipal;
+import saltlux.ctv.tranSS.util.AuthUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -32,7 +33,7 @@ public class PORepositoryImpl implements PORepositoryCustom {
 
         Query query = em.createNativeQuery(buildGetListQuery(filters, pmVtcCode, false, currentUser));
         Query countQuery = em.createNativeQuery(buildGetListQuery(filters, pmVtcCode, true, currentUser));
-        if (null != pmVtcCode && !currentUser.isAdmin()) {
+        if (null != pmVtcCode && !currentUser.isAdmin() && !AuthUtil.isPmLeader(currentUser)) {
             query.setParameter("pmid", pmVtcCode);
             countQuery.setParameter("pmid", pmVtcCode);
         }
@@ -82,7 +83,7 @@ public class PORepositoryImpl implements PORepositoryCustom {
         }
         builder.append("FROM project_assignment  a LEFT JOIN projects p ON  a.project_id = p.id LEFT JOIN candidates c on a.candidate_id = c.id LEFT JOIN purchase_order po ON a.id = po.assignment_id LEFT JOIN invoices i ON i.id = po.invoice_id");
         builder.append(" WHERE 1=1 ");
-        if (null != pmVtcCode && !currentUser.isAdmin()) { //NOT ADMIN
+        if (null != pmVtcCode && !currentUser.isAdmin() && !AuthUtil.isPmLeader(currentUser)) { //NOT ADMIN AND PM LEADER
             builder.append(" AND p.pm_vtc = :pmid ORDER BY p.code");
         }
         String filterQuery = buildFilterCondition(filters);

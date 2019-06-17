@@ -32,8 +32,8 @@ import static saltlux.ctv.tranSS.util.TransformUtil.roundByCurrency;
 
 @Slf4j
 public class ExcelUtil {
-    //    private static final String TOMCAT_BASE = System.getProperty("catalina.base");
-    private static final String TOMCAT_BASE = Paths.get("").toAbsolutePath().getParent().toString();
+        private static final String TOMCAT_BASE = System.getProperty("catalina.base");
+//    private static final String TOMCAT_BASE = Paths.get("").toAbsolutePath().getParent().toString();
 
     private static final int RDB_SHEET = 3;
     private static final int PROJECT_FINISHED_SHEET = 0;

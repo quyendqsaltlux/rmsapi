@@ -6,6 +6,7 @@ public interface AppConstants {
 
     int MAX_PAGE_SIZE = 50;
     String PM_LEADER = "GRA";
+    String PM_LEADER_KOREA = "JTC";
     float PROJECT_PROGRESS_MAX = 10;
     float PROJECT_PROGRESS_ONGOING_POINT = 2;
 }
