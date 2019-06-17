@@ -127,7 +127,9 @@ public class POService {
      */
     private POResponse convertToDto(PurchaseOrder order) {
         POResponse response = modelMapper.map(order, POResponse.class);
-        response.setInvoice(modelMapper.map(order.getInvoice(), PoInvoice.class));
+        if(null != order.getInvoice()){
+            response.setInvoice(modelMapper.map(order.getInvoice(), PoInvoice.class));
+        }
 
         projectRepository.findById(order.getAssignment().getProjectId())
                 .ifPresent(project1 -> {
